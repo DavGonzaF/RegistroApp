@@ -1,0 +1,29 @@
+ion-card {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    margin: auto; /* Centrar el card */
+    max-width: 400px; /* Ancho máximo */
+    text-align: center; /* Centrar texto */
+    height: auto; /* Altura automática */
+  }
+  
+  h1 {
+    color: rgb(242, 255, 0); /* Color del título */
+  }
+  
+  .incorrecto-image {
+    width: 100%; /* Ancho completo */
+    border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 20px; /* Espaciado inferior */
+  }
+  
+  ion-card-header {
+    margin: 20px 0; /* Espaciado superior e inferior */
+  }
+  
+  ion-button {
+    background-color: blue; /* Color azul para el botón */
+    color: white; /* Color blanco para el texto del botón */
+  }
+  

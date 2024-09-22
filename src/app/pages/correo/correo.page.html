@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center font-size-18">
+      Sistema de Asistencia DUOC
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-horizontal">
+  <div class="login-wrapper">
+    <ion-grid class="ion-text-center">
+      <ion-row>
+        <ion-col size="12">
+          <h2 class="titulo">Recuperar Contraseña</h2>
+          <p class="subtitulo">Paso 1: Ingresa tu correo</p>
+        </ion-col>
+      </ion-row>
+
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="floating"></ion-label>
+        <ion-input labelPlacement="floating" label="Ingresa tu correo" type="email" [(ngModel)]="correo" placeholder="juanitoperez@duocuc.cl"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="boton" (click)="ingresarPaginaValidarRespuestaSecreta()">
+        Recuperar Contraseña
+      </ion-button>
+    </ion-grid>
+  </div>
+</ion-content>

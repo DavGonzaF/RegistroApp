@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center font-size-18">
+      Sistema de Asistencia DUOC
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-horizontal">
+  <div class="login-wrapper">
+    <ion-card class="card-color" style="margin: 0 auto; width: 80%; border-radius: 20px;">
+      <ion-card-content>
+        <h1 class="ion-text-center" style="color: white; margin-bottom: 20px;">¡Bienvenido(a) {{ usuario.nombre }} {{ usuario.apellido }}!</h1>
+        <br><br><br>
+        <ion-button expand="full" class="miclase-button" style="--background: #007bff;" (click)="navegarMiClase()">
+          Mi Clase
+        </ion-button>
+        <ion-button expand="full" class="miclase-button" style="--background: #007bff; margin-top: 10px;" (click)="navegarMisDatos()">
+          Mis Datos
+        </ion-button>
+        <br><br>
+        <ion-button expand="full" class="miclase-button" style="--background: #ff3838; margin-top: 20px;" (click)="logout()">
+          Cerrar Sesión
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

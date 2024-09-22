@@ -1,0 +1,45 @@
+.fondo-negro {
+    background-color: #000000; /* Fondo negro */
+  }
+  
+  .login-wrapper {
+    max-width: 600px;
+    margin: 100px auto; /* Centrar verticalmente */
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1); /* Sombra más tenue */
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+  }
+  
+  .titulo {
+    font-size: 24px;
+    color: #ffffff; /* Texto blanco */
+    margin-bottom: 10px;
+  }
+  
+  .subtitulo {
+    font-size: 18px;
+    color: #cccccc; /* Texto gris claro */
+    margin-bottom: 30px;
+  }
+  
+  ion-item {
+    --background: rgba(255, 255, 255, 0.2); /* Fondo del input semitransparente */
+    --border-radius: 8px; /* Bordes redondeados */
+    color: #ffffff; /* Texto blanco en el input */
+  }
+  
+  .boton {
+    margin-top: 20px;
+    --border-radius: 8px;
+    font-size: 16px;
+    --background: #007bff; /* Color azul del botón */
+    color: white; /* Color del texto del botón */
+  }
+  
+  h1 {
+    font-size: 28px;
+    color: #4caf50;
+    margin-bottom: 30px;
+  }
+  

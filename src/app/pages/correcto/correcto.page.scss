@@ -1,0 +1,46 @@
+ion-card {
+  width: 80%; /* Aumentar el tamaño a un 80% del ancho de la pantalla */
+  height: px;
+  max-width: 600px; /* Aumentar el ancho máximo para pantallas más grandes */
+  margin: 150px auto; /* Mayor separación vertical para centrar mejor */
+  padding: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+}
+
+.correcto-image {
+  width: 100%; /* La imagen ahora ocupa todo el ancho disponible dentro del ion-card */
+  height: auto; /* Ajustar automáticamente la altura para mantener las proporciones */
+  max-width: 400px; /* Máximo tamaño de la imagen */
+  border-radius: 20px; /* Bordes redondeados */
+  margin: 30px auto; /* Espacio alrededor de la imagen */
+}
+
+h1 {
+  font-size: 28px; /* Hacer el título más grande */
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+ion-card-header {
+  margin-bottom: 30px;
+}
+
+ion-card-title {
+  font-size: 20px; /* Aumentar el tamaño del título */
+  font-weight: bold;
+  color: #c1bdbd;
+}
+
+ion-card-subtitle {
+  font-size: 18px; /* Aumentar el tamaño del subtítulo */
+  color: #ffffff;
+}
+
+ion-button {
+  margin-top: 30px;
+  --border-radius: 8px;
+  font-size: 16px; /* Aumentar el tamaño del texto en el botón */
+}

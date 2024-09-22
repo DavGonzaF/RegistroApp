@@ -1,0 +1,28 @@
+ion-content {
+    --background: #1e1e1e;
+  }
+  
+  .login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .card-color {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+  }
+  
+  h1 {
+    color: white;
+    margin-bottom: 20px; /* Espacio entre el saludo y los botones */
+  }
+  
+  .miclase-button {
+    margin-top: 10px;
+  }
+  

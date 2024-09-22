@@ -1,0 +1,30 @@
+<ion-content class="ion-padding" fullscreen>
+  <div class="login-container">
+    <img src="../../../assets/img/DuocUc_1.jpg" alt="Fondo de la Institución" class="background-image">
+    
+    <div class="login-box">
+      <img src="../../../assets/img/DUOC-logo-PNG.png" alt="logo de la Institución">
+      <h1>Sistema de Asistencia </h1>
+      <h2>Estudiantil</h2>
+
+      <ion-item>
+        <ion-input [(ngModel)]="usuario.cuenta" labelPlacement="floating" label="Cuenta"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input [(ngModel)]="usuario.password" labelPlacement="floating" type="password" label="Contraseña">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+      </ion-item>
+
+      <ion-button expand="block" color="primary" (click)="ingresar()">
+        <ion-icon name="log-in-outline"></ion-icon>
+        Ingresar
+      </ion-button>
+
+      <ion-button fill="clear" class="recuperar-contrasena" (click)="ingresarPaginaValidarCorreo()">
+        Recuperar Contraseña
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
