@@ -1,6 +1,6 @@
 // inicio.page.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
@@ -11,10 +11,9 @@ import { Usuario } from 'src/app/model/usuario';
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage implements OnInit {
+export class InicioPage  {
 
-  public usuario: Usuario = new Usuario('', '', '', '', '', '', '',
-    NivelEducacional.findNivelEducacionalById(1)!, undefined);
+  public usuario: Usuario = new Usuario();
 
   constructor(
     private alertController: AlertController,
@@ -22,29 +21,20 @@ export class InicioPage implements OnInit {
     private router: Router
   ) 
   {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const nav = this.router.getCurrentNavigation();
-      if (nav && nav.extras.state && nav.extras.state['usuario']) {
-        this.usuario = nav.extras.state['usuario'];
-      } else {
-        this.router.navigate(['/login']); // Redirige al login si no hay usuario
-      }
-    });
+    this.usuario.recibirUsuario(this.activatedRoute, this.router);
   }
 
-  ngOnInit() {}
+  
 
   navegarMiClase() {
-    const navigationExtras = { state: { usuario: this.usuario }};
-    this.router.navigate(['/miclase'], navigationExtras);
+    this.usuario.navegarEnviandoUsuario(this.router, '/miclase')
   }
 
   navegarMisDatos() {
-    const navigationExtras = { state: { usuario: this.usuario }};
-    this.router.navigate(['/misdatos'], navigationExtras);
+    this.usuario.navegarEnviandoUsuario(this.router, '/misdatos')
   }
 
   logout() {
-    this.router.navigate(['/login']);
+    this.usuario.navegarEnviandoUsuario(this.router, '/login')
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
 import { Usuario } from 'src/app/model/usuario';
 
@@ -8,29 +8,39 @@ import { Usuario } from 'src/app/model/usuario';
   templateUrl: './correo.page.html',
   styleUrls: ['./correo.page.scss'],
 })
-export class CorreoPage implements OnInit {
+export class CorreoPage  {
 
   public correo: string = '';
+  private usuario: Usuario = new Usuario();
 
-  constructor( private router: Router ) { }
-
-  ngOnInit() {
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) { 
+    this.usuario.recibirUsuario(activatedRoute, router);
   }
 
+  
+
   public ingresarPaginaValidarRespuestaSecreta(): void {
-    const usuarioEncontrado = Usuario.getListaUsuarios().find(
+
+    const usuarioEncontrado = this.usuario.listaUsuarios.find(
       usuario => usuario.correo === this.correo
     );
-  
+
     if (!usuarioEncontrado) {
-      alert('El correo no existe dentro de las cuentas del sistema');
+      this.usuario.navegarEnviandoUsuario(this.router, '/incorrecto');
     } else {
-      const navigationExtras: NavigationExtras = {
-        state: {
-          usuario: usuarioEncontrado
-        }
-      };
-      this.router.navigate(['/pregunta'], navigationExtras);
+      
+      this.usuario.cuenta = usuarioEncontrado.cuenta;
+      this.usuario.correo = usuarioEncontrado.correo;
+      this.usuario.password = usuarioEncontrado.password;
+      this.usuario.preguntaSecreta = usuarioEncontrado.preguntaSecreta;
+      this.usuario.respuestaSecreta = usuarioEncontrado.respuestaSecreta;
+      this.usuario.nombre = usuarioEncontrado.nombre;
+      this.usuario.apellido = usuarioEncontrado.apellido;
+      this.usuario.nivelEducacional = usuarioEncontrado.nivelEducacional;
+      this.usuario.fechaNacimiento = usuarioEncontrado.fechaNacimiento;
+      this.usuario.asistencia = usuarioEncontrado.asistencia;
+
+      this.usuario.navegarEnviandoUsuario(this.router, '/pregunta');
     }
   }
   

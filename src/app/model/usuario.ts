@@ -1,5 +1,7 @@
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NivelEducacional } from './nivel-educacional';
 import { Persona } from "./persona";
+import { Asistencia } from '../interfaces/asistencia';
 
 export class Usuario extends Persona {
 
@@ -8,8 +10,40 @@ export class Usuario extends Persona {
   public password: string;
   public preguntaSecreta: string;
   public respuestaSecreta: string;
+  public asistencia: Asistencia;
+  public listaUsuarios: Usuario[];
 
-  constructor(
+  constructor() {
+    super();
+    this.cuenta = '';
+    this.correo = '';
+    this.password = '';
+    this.preguntaSecreta = '';
+    this.respuestaSecreta = '';
+    this.nombre = '';
+    this.apellido = '';
+    this.nivelEducacional = NivelEducacional.findNivelEducacionalById(1)!;
+    this.fechaNacimiento = undefined;
+    this.asistencia = this.asistenciaVacia();
+    this.listaUsuarios = [];
+  }
+
+  public asistenciaVacia(): Asistencia {
+    return {  
+      bloqueInicio: 0,
+      bloqueTermino: 0,
+      dia: '',
+      horaFin: '',
+      horaInicio: '',
+      idAsignatura: '',
+      nombreAsignatura: '',
+      nombreProfesor: '',
+      seccion: '',
+      sede: ''
+    };
+  }
+
+  public static getNewUsuario(
     cuenta: string,
     correo: string,
     password: string,
@@ -18,50 +52,83 @@ export class Usuario extends Persona {
     nombre: string,
     apellido: string,
     nivelEducacional: NivelEducacional,
-    fechaNacimiento: Date | undefined)
-  {
-    super();
-    this.cuenta = cuenta;
-    this.correo = correo;
-    this.password = password;
-    this.preguntaSecreta = preguntaSecreta;
-    this.respuestaSecreta = respuestaSecreta;
-    this.nombre = nombre;
-    this.apellido = apellido;
-    this.nivelEducacional = nivelEducacional;
-    this.fechaNacimiento = fechaNacimiento;
+    fechaNacimiento: Date | undefined
+  ) {
+    let usuario = new Usuario();
+    usuario.cuenta = cuenta;
+    usuario.correo = correo;
+    usuario.password = password;
+    usuario.preguntaSecreta = preguntaSecreta;
+    usuario.respuestaSecreta = respuestaSecreta;
+    usuario.nombre = nombre;
+    usuario.apellido = apellido;
+    usuario.nivelEducacional = nivelEducacional;
+    usuario.fechaNacimiento = fechaNacimiento;
+    return usuario;
+  }
+
+  crearListausuariosValidos() {
+    if (this.listaUsuarios.length === 0) {
+      this.listaUsuarios.push(
+        Usuario.getNewUsuario(
+          'atorres', 
+          'atorres@duocuc.cl', 
+          '1234', 
+          '¿Cuál es tu animal favorito?', 
+          'gato', 
+          'Ana', 
+          'Torres', 
+          NivelEducacional.findNivelEducacionalById(6)!,
+          new Date(2000, 0, 1)
+        )
+      );
+      this.listaUsuarios.push(
+        Usuario.getNewUsuario(
+          'jperez',
+          'jperez@duocuc.cl',
+          '5678',
+          '¿Cuál es tu postre favorito?',
+          'panqueques',
+          'Juan',
+          'Pérez',
+          NivelEducacional.findNivelEducacionalById(5)!,
+          new Date(2000, 1, 1)
+        )
+      );
+      this.listaUsuarios.push(
+        Usuario.getNewUsuario(
+          'cmujica',
+          'cmujica@duocuc.cl',
+          '0987',
+          '¿Cuál es tu vehículo favorito?',
+          'moto',
+          'Carla',
+          'Mujica',
+          NivelEducacional.findNivelEducacionalById(6)!,
+          new Date(2000, 2, 1)
+        )
+      );
+    }
   }
 
   public buscarUsuarioValido(cuenta: string, password: string): Usuario | undefined {
-    return Usuario.getListaUsuarios().find(
-      usu => usu.cuenta === cuenta && usu.password === password);
+    return this.listaUsuarios.find(usu => usu.cuenta === cuenta && usu.password === password);
   }
 
-  public buscarUsuarioPorCorreo(correo: string): Usuario | undefined {
-    return Usuario.getListaUsuarios().find(
-      usu => usu.correo === correo);
-  }  
+  public buscarUsuarioPorCuenta(cuenta: string): Usuario | undefined {
+    return this.listaUsuarios.find(usu => usu.cuenta === cuenta);
+  }
 
   public validarCuenta(): string {
-    if (this.buscarUsuarioValido(this.cuenta, this.password)) {
-      return '';
-    }
-    return 'Para ingresar al sistema debe ingresar una cuenta y contraseña válidos.';
-  }
-
-  public validarCorreo(): string {
-    if (this.correo.trim() === '') {
-      return ' Para ingresar al sistema debe inigresar un nombre de usuario.';
-    }
-    if (this.correo.length < 3 || this.correo.length > 8) {
-      return 'El nombre de usuario debe tener entre 3 y o caracteres.';
+    if (this.cuenta.trim() === '') {
+      return 'Para ingresar al sistema debe seleccionar una cuenta.';
     }
     return '';
   }
 
   public validarPassword(): string {
     if (this.password.trim() === '') {
-      return 'Para entrar al sistema debe ingresar la contraseña.';
+      return 'Para igresar al sistema debe escribir la contraseña.';
     }
     for (let i = 0; i < this.password.length; i++) {
       if ('0123456789'.indexOf(this.password.charAt(i)) === -1) {
@@ -75,15 +142,13 @@ export class Usuario extends Persona {
   }
 
   public validarUsuario(): string {
-    return this.validarCuenta()
-      || this.validarPassword();
-  }
-
-  public getTextoNivelEducacional(): string {
-    if (this.nivelEducacional) {
-      return this.nivelEducacional.getTextoNivelEducacional();
-    }
-    return 'No asignado';
+    let error = this.validarCuenta();
+    if (error) return error;
+    error = this.validarPassword();
+    if (error) return error;
+    const usu = this.buscarUsuarioValido(this.cuenta, this.password);
+    if (!usu) return 'Las credenciales del usuario son incorrectas.';
+    return '';
   }
 
   public override toString(): string {
@@ -94,53 +159,67 @@ export class Usuario extends Persona {
       ${this.respuestaSecreta}
       ${this.nombre}
       ${this.apellido}
-      ${this.nivelEducacional.getTextoNivelEducacional()}
-      ${this.formatDateDDMMYYYY(this.fechaNacimiento)}`;
+      ${this.nivelEducacional.id}
+      ${this.getFechaNacimiento()}`;
   }
 
-  public formatDateDDMMYYYY(date: Date | undefined): string {
-    if (!date) return '';
-    const day = date.getDate().toString().padStart(2, '0'); // Obtener el día y agregar un cero inicial si es necesario
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Obtener el mes (agregando 1) y agregar un cero inicial si es necesario
-    const year = date.getFullYear(); // Obtener el año
-    return `${day}/${month}/${year}`;
+  recibirUsuario(activatedRoute: ActivatedRoute, router: Router) {
+    if (this.listaUsuarios.length === 0) this.crearListausuariosValidos();
+    activatedRoute.queryParams.subscribe(() => {
+      const nav = router.getCurrentNavigation();
+      if (nav) {
+        if (nav.extras.state) {
+          this.listaUsuarios = nav.extras.state['listaUsuarios'];
+          const encontrado = this.buscarUsuarioPorCuenta(nav.extras.state['cuenta'])!;
+
+          this.cuenta = encontrado.cuenta;
+          this.password = encontrado.password;
+          this.preguntaSecreta = encontrado.preguntaSecreta;
+          this.respuestaSecreta = encontrado.respuestaSecreta;
+          this.nombre = encontrado.nombre;
+          this.apellido = encontrado.apellido;
+          this.nivelEducacional = encontrado.nivelEducacional;
+          this.fechaNacimiento = encontrado.fechaNacimiento;
+          
+          this.asistencia = nav.extras.state['asistencia'];
+
+          //alert('recibo: ' + this.listaUsuarios[0].nombre + ' ' + this.listaUsuarios[0].asistencia.idAsignatura);
+          return;
+        }
+      }
+      router.navigate(['/login']);
+    });
   }
 
-  public static getListaUsuarios(): Usuario[] {
-    return [
-      new Usuario(
-        'atorres', 
-        'atorres@duocuc.cl', 
-        '1234', 
-        '¿Cuál es tu animal favorito?', 
-        'gato', 
-        'Ana', 
-        'Torres', 
-        NivelEducacional.findNivelEducacionalById(6)!,
-        new Date(2000, 0, 1)
-      ),
-      new Usuario(
-        'jperez',
-        'jperez@duocuc.cl',
-        '5678',
-        '¿Cuál es tu postre favorito?',
-        'panqueques',
-        'Juan',
-        'Pérez',
-        NivelEducacional.findNivelEducacionalById(5)!,
-        new Date(2000, 1, 1)
-      ),
-      new Usuario(
-        'cmujica',
-        'cmujica@duocuc.cl',
-        '0987',
-        '¿Cuál es tu vehículo favorito?',
-        'moto',
-        'Carla',
-        'Mujica',
-        NivelEducacional.findNivelEducacionalById(6)!,
-        new Date(2000, 2, 1)
-      ),
-    ]
+  navegarEnviandoUsuario(router: Router, pagina: string) {
+    if (this.cuenta.trim() !== '' && this.password.trim() !== '') {
+      const navigationExtras: NavigationExtras = {
+        state: {
+          cuenta: this.cuenta,
+          listaUsuarios: this.listaUsuarios,
+          asistencia: this.asistencia
+        }
+      }
+      //alert('envío: ' + this.listaUsuarios[0].nombre + ' ' + this.listaUsuarios[0].asistencia.idAsignatura);
+      router.navigate([pagina], navigationExtras);
+    }
+    else {
+      router.navigate(['/login']);
+    }
+  }
+
+  actualizarUsuario() {
+    const usu = this.buscarUsuarioPorCuenta(this.cuenta);
+    if (usu) {
+      usu.correo = this.correo;
+      usu.password = this.password;
+      usu.preguntaSecreta = this.preguntaSecreta;
+      usu.respuestaSecreta = this.respuestaSecreta;
+      usu.nombre = this.nombre;
+      usu.apellido = this.apellido;
+      usu.nivelEducacional = this.nivelEducacional;
+      usu.fechaNacimiento = this.fechaNacimiento;
+      usu.asistencia = this.asistencia;
+    }
   }
 }

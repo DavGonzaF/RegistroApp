@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MiclasePageRoutingModule } from './miclase-routing.module';
 
 import { MiclasePage } from './miclase.page';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { MiclasePage } from './miclase.page';
     FormsModule,
     IonicModule,
     MiclasePageRoutingModule
+    ,MatDatepickerModule
   ],
   declarations: [MiclasePage]
 })

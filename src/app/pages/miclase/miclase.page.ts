@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { Usuario } from 'src/app/model/usuario';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
@@ -10,7 +10,7 @@ import jsQR, { QRCode } from 'jsqr';
   templateUrl: './miclase.page.html',
   styleUrls: ['./miclase.page.scss'],
 })
-export class MiclasePage implements OnInit, AfterViewInit {
+export class MiclasePage implements  AfterViewInit {
 
   @ViewChild('video') private video!: ElementRef;
   @ViewChild('canvas') private canvas!: ElementRef;
@@ -19,8 +19,7 @@ export class MiclasePage implements OnInit, AfterViewInit {
   public escaneando = false;
   public datosQR: any = null;
   public loading: HTMLIonLoadingElement | null = null;
-  public usuario: Usuario = new Usuario('', '', '', '', '', '', '',
-    NivelEducacional.findNivelEducacionalById(1)!, undefined);
+  public usuario: Usuario = new Usuario();
   public listaNivelesEducacionales = NivelEducacional.getNivelesEducacionales();
 
   constructor(
@@ -30,14 +29,7 @@ export class MiclasePage implements OnInit, AfterViewInit {
     private animationController: AnimationController,
     private router: Router
   ) {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const nav = this.router.getCurrentNavigation();
-      if (nav && nav.extras.state) {
-        this.usuario = nav.extras.state['usuario'];
-      } else {
-        this.router.navigate(['/ingreso']);
-      }
-    });
+    this.usuario.recibirUsuario(this.activatedRoute, this.router);
   }
 
   navegarInicio() {
@@ -132,5 +124,5 @@ export class MiclasePage implements OnInit, AfterViewInit {
     this.loading = null;
   }
 
-  ngOnInit() {}
+  
 }

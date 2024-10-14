@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
 import { Usuario } from 'src/app/model/usuario';
@@ -9,27 +9,27 @@ import { Usuario } from 'src/app/model/usuario';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage  {
 
   public usuario: Usuario;
 
   constructor(
     private toastController: ToastController,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.usuario = new Usuario('', '', '', '', '', '', '',
-      NivelEducacional.findNivelEducacionalById(1)!, undefined);
+    this.usuario = new Usuario();
+    this.usuario.recibirUsuario(this.activatedRoute, this.router);
 
     this.usuario.cuenta = 'atorres';
     this.usuario.password = '1234';  
 
    }
 
-  ngOnInit(): void {
-  }
+  
 
   public ingresarPaginaValidarCorreo(): void {
-    this.router.navigate(['/correo']);
+    this.usuario.navegarEnviandoUsuario(this.router, '/correo')
   }
 
   public ingresar(): void{
@@ -41,13 +41,8 @@ export class LoginPage implements OnInit {
         this.usuario.cuenta, this.usuario.password);
       
       if (usu) {
-        const NavigationExtras: NavigationExtras = {
-          state: {
-            usuario: usu
-          }
-        };
         this.mostrarMensaje('¡Bienvenido(a)!');
-        this.router.navigate(['/inicio'], NavigationExtras);
+        this.usuario.navegarEnviandoUsuario(this.router, '/inicio')
       }
     }
   }

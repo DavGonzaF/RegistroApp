@@ -9,17 +9,10 @@ import { Usuario } from 'src/app/model/usuario';
 })
 export class CorrectoPage implements OnInit {
 
-  public usuario!: Usuario;
+  public usuario: Usuario = new Usuario();
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const nav = this.router.getCurrentNavigation();
-      if (nav && nav.extras.state && nav.extras.state['usuario']) {
-        this.usuario = nav.extras.state['usuario'];
-      } else {
-        this.router.navigate(['/login']);
-      }
-    });
+    this.usuario.recibirUsuario(activatedRoute, router);
   }
 
   ngOnInit() {

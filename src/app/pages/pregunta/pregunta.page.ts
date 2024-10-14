@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
 import { NivelEducacional } from 'src/app/model/nivel-educacional';
@@ -9,7 +9,7 @@ import { Usuario } from 'src/app/model/usuario';
   templateUrl: './pregunta.page.html',
   styleUrls: ['./pregunta.page.scss'],
 })
-export class PreguntaPage implements OnInit {
+export class PreguntaPage  {
 
   public usuario: Usuario;
   public respuesta: string = '';
@@ -20,33 +20,18 @@ export class PreguntaPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
   ) { 
-    this.usuario = new Usuario('', '', '', '', '', '', '',
-      NivelEducacional.findNivelEducacionalById(1)!, undefined);
-    this.activatedRoute.queryParams.subscribe(params => {
-      const nav = this.router.getCurrentNavigation();
-      if (nav) {
-        if ( nav.extras.state) {
-          this.usuario = nav.extras.state['usuario'];
-          return
-        }
-      }
-      this.router.navigate(['/login'])
-    })
+    this.usuario = new Usuario();
+    this.usuario.recibirUsuario(this.activatedRoute, this.router);
   }
 
-  ngOnInit() {
-  }
+  
 
   public ValidarRespuestaSecreta(): void {
+    debugger
     if (this.usuario.respuestaSecreta === this.respuesta) {
-      const navigationExtras: NavigationExtras = {
-        state: {
-          usuario: this.usuario
-        }
-      };
-      this.router.navigate(['/correcto'], navigationExtras); 
+      this.usuario.navegarEnviandoUsuario(this.router, '/correcto');
     } else {
-      this.router.navigate(['/incorrecto']); 
+      this.usuario.navegarEnviandoUsuario(this.router, '/incorrecto');
     }
   }
   

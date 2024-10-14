@@ -11,10 +11,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 // Esto en necesario para las animaciones
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule, MatRangeDateSelectionModel} from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatPseudoCheckboxModule } from '@angular/material/core';
 import { LOCALE_ID } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -31,6 +33,9 @@ import { LOCALE_ID } from '@angular/core';
     , MatDatepickerModule
     ,MatInputModule
     ,MatNativeDateModule
+    ,MatButtonModule
+    ,MatFormFieldModule
+    ,MatPseudoCheckboxModule
     
   ],
   providers: [
